@@ -1,0 +1,30 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+<link rel="import" href="css/og-gdp-chart-styles.html">
+
+<!--
+REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+
+### Usage
+
+    <og-gdp-chart counter-value="1"></og-gdp-chart>
+
+@element og-gdp-chart
+@blurb REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
+@homepage index.html
+@demo index.html
+-->
+
+<dom-module id="og-gdp-chart">
+  <template>
+    <style include="og-gdp-chart-styles"></style>
+    <a href="javascript:" on-click="handleClick">Click here to increment counter:</a>
+    <span>{{counterValue}}</span>
+  </template>
+</dom-module>
+<script src="dist/og-gdp-chart.js"></script>
