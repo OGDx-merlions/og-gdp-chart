@@ -22,7 +22,7 @@
           "current": [{"x": 1, "y": 2, "band": "1"}]}
       }
       * @property data
-      */data:{type:Array,value:function value(){return[]},observer:'_redraw'},/**
+      */data:{type:Object,observer:'_redraw'},/**
        * Axis Data
        *
        * @property axisData
