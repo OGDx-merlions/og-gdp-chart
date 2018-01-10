@@ -173,21 +173,18 @@
       this.scopeSubtree(this.$.gammaChart, true);
       this.scopeSubtree(this.$.densityChart, true);
       this.scopeSubtree(this.$.porosityChart, true);
-      this.gamma = {"historical": {}, "current": {}};
-      this.density = {"historical": {}, "current": {}};
-      this.porosity = {"historical": {}, "current": {}};
     },
 
     attached() {
-      this._setupDefaults();
       if(this.data && this.data.length) {
         this.draw();
       }
     },
 
     draw() {
-      let d3 = Px.d3, data = this.data;
+      let data = this.data;
       if(!data || !this.axisData || !this.axisData.x || !this.axisData.y) {return;}
+      this._setupDefaults();
       if(Object.keys(this.axisData.y.bands).length > 1) {
         let _bands = [];
         Object.keys(this.axisData.y.bands).forEach((_bandId) => {
@@ -204,7 +201,8 @@
     },
 
     _draw(type) {
-      let d3 = Px.d3, data = this.data;
+      let data = this.data;
+      if(!data || !this.axisData || !this.axisData.x || !this.axisData.y) {return;}
       this._prepareChartingArea(type);
       this._prepareAxes(data, type);
       this._drawGridLines(data, type);
@@ -214,6 +212,10 @@
     },
     
     _setupDefaults() {
+      this.gamma = this.gamma || {"historical": {}, "current": {}};
+      this.density = this.density || {"historical": {}, "current": {}};
+      this.porosity = this.porosity || {"historical": {}, "current": {}};
+
       this.axisData = this.axisData ? this.axisData : this.__defaultAxisData;
       this.axisData.x = this.axisData.x ? this.axisData.x : this.__defaultAxisData.x;
       this.axisData.y = this.axisData.y ? this.axisData.y : this.__defaultAxisData.y;
