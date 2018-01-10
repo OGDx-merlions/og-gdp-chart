@@ -4,6 +4,8 @@
     'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
 -->
 <link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-d3-imports/px-d3-imports.html"/>
+<script src="d3-tip.js"></script>
 
 <link rel="import" href="css/og-gdp-chart-styles.html">
 
@@ -23,8 +25,34 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
 <dom-module id="og-gdp-chart">
   <template>
     <style include="og-gdp-chart-styles"></style>
-    <a href="javascript:" on-click="handleClick">Click here to increment counter:</a>
-    <span>{{counterValue}}</span>
+    <div class="flex flex--col chart-container" id="charts">
+      <div class="flex flex--col">
+        <div class$="flex flex--[[legendAlignment]] legend">
+          <div class="flex flex--row">
+            <template is="dom-repeat" items="[[_bands]]" index-as="idx" as="item">
+              <div class="flex flex__item flex--col u-pr++ zeta legend-unit" 
+                style$="border-color: [[item.color]]">
+                <span class="flex flex--top">[[item.label]]</span>
+              </div>
+            </template>
+            <div class="flex flex__item flex--col u-pr++ zeta legend-unit dashed-border" data-id="currentDepth" 
+              style$="border-color: [[axisData.y.currentDepth.color]]">
+              <span class="flex flex--top">[[axisData.y.currentDepth.label]]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex--col">
+        <div class="epsilon weight--bold title">Gamma</div>
+        <div id="gammaChart"></div>
+
+        <div class="epsilon weight--bold title">Density</div>
+        <div id="densityChart"></div>
+
+        <div class="epsilon weight--bold title">Porosity</div>
+        <div id="porosityChart"></div>
+      </div>
+    </div>
   </template>
 </dom-module>
 <script src="dist/og-gdp-chart.js"></script>

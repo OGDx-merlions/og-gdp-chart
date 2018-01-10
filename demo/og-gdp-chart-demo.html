@@ -9,6 +9,7 @@
 <link rel="import" href="../../px-demo/px-demo-props.html" />
 <link rel="import" href="../../px-demo/px-demo-interactive.html" />
 <link rel="import" href="../../px-demo/px-demo-component-snippet.html" />
+<link rel="import" href="../../px-demo/px-demo-code-editor.html" />
 
 <!-- Imports for this component -->
 <link rel="import" href="../../px-demo/css/px-demo-styles.html" />
@@ -33,10 +34,14 @@
       <!-- Props -->
       <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
 
+      <px-demo-code-editor slot="px-demo-code-editor" props="{{props}}" config="[[chosenConfig]]"></px-demo-code-editor>
+
       <!-- Component ---------------------------------------------------------->
       <px-demo-component>
         <og-gdp-chart
-          counter-value="{{props.counterValue.value}}">
+          data="{{props.data.value}}" axis-data="{{props.axisData.value}}" 
+          margin="{{props.margin.value}}"
+          width="{{props.width.value}}" height="{{props.height.value}}">
         </og-gdp-chart>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -197,10 +202,145 @@
      * A reference for `this.props`. Read the documentation there.
      */
     demoProps: {
-      counterValue: {
+      width: {
         type: Number,
-        defaultValue: '0',
+        defaultValue: 960,
         inputType: 'text'
+      },
+      height: {
+        type: Number,
+        defaultValue: 500,
+        inputType: 'text'
+      },
+      margin: {
+        type: Object,
+        defaultValue: {top: 20, right: 20, bottom: 30, left: 50},
+        inputType: 'code:JSON'
+      },
+      data: {
+        type: Array,
+        defaultValue: {
+          "gamma": {"historical": [{"x": 0.5, "y": 2, "band": "1"}, 
+              {"x": 1, "y": 3, "band": "2"}, {"x": 2, "y": 3, "band": "3"}, 
+              {"x": 3, "y": 3.5, "band": "3"}], 
+            "current": [{"x": 0.5, "y": 2, "band": "1"},
+              {"x": 0.75, "y": 2.1, "band": "1"}, {"x": 0.75, "y": 2.5, "band": "3"}, 
+              {"x": 2, "y": 2.6, "band": "3"}]},
+          "density": {"historical": [{"x": 0.5, "y": 2, "band": "1"}, 
+          {"x": 1, "y": 3, "band": "2"}, {"x": 2, "y": 3, "band": "3"}, 
+          {"x": 3, "y": 3.5, "band": "3"}], 
+        "current": [{"x": 0.5, "y": 2, "band": "1"},
+          {"x": 0.75, "y": 2.1, "band": "1"}, {"x": 0.75, "y": 2.5, "band": "3"}, 
+          {"x": 2, "y": 2.6, "band": "3"}]},
+          "porosity": {"historical": [{"x": 0.5, "y": 2, "band": "1"}, 
+          {"x": 1, "y": 3, "band": "2"}, {"x": 2, "y": 3, "band": "3"}, 
+          {"x": 3, "y": 3.5, "band": "3"}], 
+        "current": [{"x": 0.5, "y": 2, "band": "1"},
+          {"x": 0.75, "y": 2.1, "band": "1"}, {"x": 0.75, "y": 2.5, "band": "3"}, 
+          {"x": 2, "y": 2.6, "band": "3"}]}
+        },
+        inputType: 'code:JSON'
+      },
+      axisData: {
+        type: Object,
+        defaultValue: {
+          "x": {
+            "color": "",
+            "axisLabel": "Measured Depth",
+            "unit": "",
+            "hideGrid": true,
+            "axisColor": "#c1c0c0",
+            "tickColor": "#c1c0c0",
+            "gamma": {
+              "tickFormat": "",
+              "d3NiceType": "",
+              "niceTicks": 0,
+              "start": 0
+            },
+            "density": {
+              "tickFormat": "",
+              "d3NiceType": "",
+              "niceTicks": 0,
+              "start": 0
+            },
+            "porosity": {
+              "tickFormat": "",
+              "d3NiceType": "",
+              "niceTicks": 0,
+              "start": 0
+            }
+          },
+          "y": {
+            "hideGrid": false,
+            "axisColor": "#c1c0c0",
+            "tickColor": "#c1c0c0",
+            "dotRadius": 2,
+            "interpolation": "curveCardinal",
+            "bands": {
+              "1": {
+                "color": "steelblue",
+                "label": "Formation 1"
+              },
+              "2": {
+                "color": "red",
+                "label": "Formation 2"
+              },
+              "3": {
+                "color": "steelblue",
+                "label": "Formation 3"
+              }
+            },
+            "gamma": {
+              "historical": {
+                "niceTicks": 6,
+                "start": 0,
+                "tickFormat": "",
+                "label": "Historical"
+              },
+              "current": {
+                "niceTicks": 6,
+                "start": 0,
+                "tickFormat": "",
+                "label": "Wellbore2"
+              }
+            },
+            "density": {
+              "historical": {
+                "niceTicks": 6,
+                "start": 0,
+                "tickFormat": "",
+                "label": "Historical"
+              },
+              "current": {
+                "niceTicks": 6,
+                "start": 0,
+                "tickFormat": "",
+                "label": "Wellbore2"
+              }
+            },
+            "porosity": {
+              "historical": {
+                "niceTicks": 6,
+                "start": 0,
+                "tickFormat": "",
+                "label": "Historical"
+              },
+              "current": {
+                "niceTicks": 6,
+                "start": 0,
+                "tickFormat": "",
+                "label": "Wellbore2"
+              }
+            },
+            "currentDepth": {
+              "color": "#c1c0c0",
+              "dashArray": "",
+              "unit": "ft",
+              "label": "Current Depth"
+            }
+          }
+        },
+        inputType: 'code:JSON'
       }
     }
   });
