@@ -186,6 +186,8 @@
     },
 
     draw() {
+      let d3 = Px.d3, data = this.data;
+      if(!data || !this.axisData || !this.axisData.x || !this.axisData.y) {return;}
       if(Object.keys(this.axisData.y.bands).length > 1) {
         let _bands = [];
         Object.keys(this.axisData.y.bands).forEach((_bandId) => {
@@ -203,7 +205,6 @@
 
     _draw(type) {
       let d3 = Px.d3, data = this.data;
-      if(!data || !this.axisData || !this.axisData.x || !this.axisData.y) {return;}
       this._prepareChartingArea(type);
       this._prepareAxes(data, type);
       this._drawGridLines(data, type);
