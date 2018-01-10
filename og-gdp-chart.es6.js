@@ -283,6 +283,7 @@
         let max = d3.max(data[type][subType], function(d) {
           return d[_axisType];
         });
+        this[_axisType+"Max"] = max;
         _axis.domain([min, max*1.2]);
 
         //matches only historical X and all y
@@ -320,6 +321,7 @@
         if(!this.axisData.y.hideGrid) {
           let _translateY = subType == 'historical' ? this.adjustedHeight/2 : 0;
           let _yGrid = d3.axisLeft(_axisY)
+            .ticks(5)
             .tickSize(-this.adjustedWidth)
             .tickFormat("");
           this[type].svg.append("g")
@@ -363,7 +365,8 @@
         currentY, data[type].current, type, 'current');
     },
     _plotLineAndDot(x, y, data, type, subType) {
-      let d3 = Px.d3, radius = 2, _axisData = this.axisData, me = this;
+      let d3 = Px.d3, radius = this.axisData.y.dotRadius, 
+      _axisData = this.axisData, me = this;
       let line = d3.line()
           .x(function(d) { return x(+d.x); })
           .y(function(d) { return y(+d.y); });
@@ -376,14 +379,14 @@
         return a.x - b.x;
       })
       let lastBand = data[0].band;
-      let xMax = x.domain()[1], len = data.length;
+      let xMax = this.xMax, len = data.length;
       _bands.push({"offset": 0, 
             "color": me.axisData.y.bands[data[0].band].color});
-      data.map((obj, idx) => {
+      data.forEach((obj, idx) => {
         if(obj.band != lastBand) {
-          _bands.push({"offset": obj.x/xMax, 
+          _bands.push({"offset": +obj.x/xMax, 
             "color": me.axisData.y.bands[data[idx-1].band].color});
-          _bands.push({"offset": obj.x/xMax, 
+          _bands.push({"offset": +obj.x/xMax, 
             "color": me.axisData.y.bands[obj.band].color});
           lastBand = obj.band;
         }
