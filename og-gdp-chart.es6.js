@@ -3,6 +3,10 @@
 
     is: 'og-gdp-chart',
 
+    listeners: {
+      'historicalToggle.checked-changed': '_toggleButtonChanged'
+    },
+
     properties: {
       /**
       * Width of the Chart.
@@ -69,10 +73,15 @@
        */
       legendAlignment: {
         type: String,
-        value: "right"
+        value: "left"
       },
       _bands: {
         type: Array
+      },
+      hideHistorical: {
+        type: Boolean,
+        value: false,
+				observer: '_redraw'
       }
     },
 
@@ -178,6 +187,10 @@
       }
     },
 
+    _toggleButtonChanged() {
+      this.hideHistorical = !this.hideHistorical;
+    },
+
     draw() {
       let data = this.data;
       if(!data || !this.axisData || !this.axisData.x || !this.axisData.y) {return;}
@@ -237,14 +250,23 @@
     _prepareChartingArea(type) {
       let d3 = Px.d3;
       // set the dimensions and margins of the graph
-      this.margin = this.margin || {top: 30, right: 20, bottom: 40, left: 50},
-      this.adjustedWidth = this.width/2 - this.margin.left - this.margin.right,
+      this.margin = this.margin || {top: 30, right: 20, bottom: 40, left: 50};
+      let _width = this.width;
+      this.adjustedWidth = _width - this.margin.left - this.margin.right;
       this.adjustedHeight = this.height - this.margin.top - this.margin.bottom;
+
+      if(this.hideHistorical) {
+        this.calculatedAdjustedWidth = this.adjustedWidth;
+        this.chartPadding = 0;
+      } else {
+        this.calculatedAdjustedWidth = this.adjustedWidth/2;
+        this.chartPadding = this.chartPadding || 8;
+      }
 
       let chartId = `${type}Chart`;
       d3.select(this.$[chartId]).select("svg").remove();
       let svg = d3.select(this.$[chartId]).append("svg")
-          .attr("viewBox", "0 0 "+this.width/2+" "+this.height)
+          .attr("viewBox", "0 0 "+_width+" "+this.height)
           .attr("preserveAspectRatio", "xMidYMid meet");
       this[type].labelRect = svg.append('g')
           .attr("transform",
@@ -266,8 +288,10 @@
     _prepareAxes(data, type) {
       // set the ranges
       let d3 = Px.d3;
-      this[type].historical.x = d3.scaleLinear().range([0, this.adjustedWidth/2-this.chartPadding]).clamp(true);
-      this[type].current.x = d3.scaleLinear().range([0, this.adjustedWidth/2-this.chartPadding]).clamp(true);
+      this[type].historical.x = d3.scaleLinear().range(
+        [0, this.calculatedAdjustedWidth-this.chartPadding]).clamp(true);
+      this[type].current.x = d3.scaleLinear().range(
+        [0, this.calculatedAdjustedWidth-this.chartPadding]).clamp(true);
       this[type].historical.y= d3.scaleLinear().range([0, this.adjustedHeight]).clamp(true);
       this[type].current.y= this[type].historical.y;
 
@@ -288,7 +312,7 @@
           return d[_axisType];
         });
         this[_axisType+"Max"] = max;
-        let axisMax = _axisType == 'y' ? max : max*1.2;
+        let axisMax = (_axisType == 'x' || subType == 'current') ? max*1.2 : max;
         _axis.domain([min, axisMax]);
 
         //matches only historical X and all y
@@ -303,8 +327,12 @@
         }
       };
 
-      _setDomain(historicalX, this.axisData.x, 'x', 'historical');
-      _setDomain(historicalY, this.axisData.y, 'y', 'historical');
+      if(this.hideHistorical) {
+        _setDomain(currentY, this.axisData.y, 'y', 'current');
+      } else {
+        _setDomain(historicalX, this.axisData.x, 'x', 'historical');
+        _setDomain(historicalY, this.axisData.y, 'y', 'historical');
+      }
       _setDomain(currentX, this.axisData.x, 'x', 'current');
     },
     _drawGridLines(data, type) {
@@ -322,11 +350,13 @@
           .attr("class", `grid x-grid ${type}-x-grid`)
           .attr("transform", "translate(0," + this.adjustedHeight + ")")
           .call(_xGrid);
-        this[type].svg.append("g")
-          .attr("class", `grid x-grid ${type}-x-grid`)
-          .attr("transform", "translate("+ (this.adjustedWidth/2+this.chartPadding) + 
-            "," + this.adjustedHeight + ")")
-          .call(_xGrid);
+        if(!this.hideHistorical) {
+          this[type].svg.append("g")
+            .attr("class", `grid x-grid ${type}-x-grid`)
+            .attr("transform", "translate("+ (this.calculatedAdjustedWidth+this.chartPadding) + 
+              "," + this.adjustedHeight + ")")
+            .call(_xGrid);
+        }
       }
 
       if(!this.axisData.y.hideGrid) {
@@ -341,11 +371,13 @@
 
 
       //Draw bounding lines
-      this[type].svg.append("g")
-          .attr("transform", "translate(" + (this.adjustedWidth/2-this.chartPadding) + ",0)")
+      if(!this.hideHistorical) {
+        this[type].svg.append("g")
+          .attr("transform", "translate(" + (this.calculatedAdjustedWidth-this.chartPadding) + ",0)")
           .attr("class", "y-axis")
           .call(d3.axisRight(d3.scaleLinear().range([0, this.adjustedHeight]))
               .ticks([]).tickFormat(""));
+      }
       this[type].svg.append("g")
           .attr("transform", "translate(" + this.adjustedWidth + ",0)")
           .attr("class", "y-axis")
@@ -383,8 +415,10 @@
           currentX = this[type].current.x,
           currentY = this[type].current.y,
           d3 = Px.d3;
-      this._plotLineAndDot(historicalX, 
-        historicalY, data[type].historical, type, 'historical');
+      if(!this.hideHistorical) {
+        this._plotLineAndDot(historicalX, 
+          historicalY, data[type].historical, type, 'historical');
+      }
       this._plotLineAndDot(currentX, 
         currentY, data[type].current, type, 'current');
     },
@@ -460,7 +494,7 @@
           });
 
       if(subType == 'historical') {
-        let _translateX = this.adjustedWidth/2+this.chartPadding;
+        let _translateX = this.calculatedAdjustedWidth+this.chartPadding;
         path.attr("transform", "translate(" + _translateX + ",0)");
         dots.attr("transform", "translate(" + _translateX + ",0)");
       }
@@ -471,15 +505,17 @@
           currentX = this[type].current.x,
           currentY = this[type].current.y,
           d3 = Px.d3;
-      this._drawAxesBySubType(historicalX, historicalY, type, 'historical');
+      if(!this.hideHistorical) {
+        this._drawAxesBySubType(historicalX, historicalY, type, 'historical');
+      }
       this._drawAxesBySubType(currentX, currentY, type, 'current');
     },
 
     _drawAxesBySubType(x, y, type, subType) {
       // Add the Y Axis
       let _yAxis = d3.axisLeft(y),
-          _translateY = this.adjustedWidth/2+this.chartPadding;
-      if('current' == subType) {
+          _translateY = this.calculatedAdjustedWidth+this.chartPadding;
+      if('historical' == subType) {
         _yAxis.tickValues([]);
         this[type].svg.append("g")
             .attr("transform", "translate(" + _translateY + ",0)")
@@ -513,10 +549,12 @@
 
       if(this.axisData.x[type][subType].label) {
         let labelPositionX;
-        if('current' == subType) {
+        if(!this.hideHistorical && 'current' == subType) {
+          labelPositionX = this.adjustedHeight/6;
+        } else if('current' == subType) {
           labelPositionX = this.adjustedHeight/4;
         } else {
-          labelPositionX = this.adjustedHeight/1.5;
+          labelPositionX = this.adjustedHeight/3;
         }
         this[type].labelRect.append("text")
           .attr("dy", "1em")

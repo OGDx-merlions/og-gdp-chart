@@ -5,6 +5,7 @@
 -->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-d3-imports/px-d3-imports.html"/>
+<link rel="import" href="../px-toggle/px-toggle.html"/>
 <script src="d3-tip.js"></script>
 
 <link rel="import" href="css/og-gdp-chart-styles.html">
@@ -26,8 +27,8 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
   <template>
     <style include="og-gdp-chart-styles"></style>
     <div class="flex flex--col chart-container" id="charts">
-      <div class="flex flex--col">
-        <div class$="flex flex--[[legendAlignment]] legend">
+      <div class="flex flex--row">
+        <div class$="flex flex--[[legendAlignment]] legend u-5/6">
           <div class="flex flex--row">
             <template is="dom-repeat" items="[[_bands]]" index-as="idx" as="item">
               <div class="flex flex__item flex--col u-pr++ zeta legend-unit" 
@@ -36,10 +37,13 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
               </div>
             </template>
             <div class="flex flex__item flex--col u-pr++ zeta legend-unit dashed-border" data-id="currentDepth" 
-              style$="border-color: [[axisData.y.currentDepth.color]]">
-              <span class="flex flex--top">[[axisData.y.currentDepth.label]]</span>
+              style$="border-color: [[axisData.x.currentDepth.color]]">
+              <span class="flex flex--top">[[axisData.x.currentDepth.label]]</span>
             </div>
           </div>
+        </div>
+        <div class="flex flex--right">
+          Historical <px-toggle id="historicalToggle" checked></px-toggle>
         </div>
       </div>
       <div class="flex flex--col">
