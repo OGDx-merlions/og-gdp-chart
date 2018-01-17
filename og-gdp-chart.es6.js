@@ -564,14 +564,14 @@
           .text(this.axisData.x[type][subType].label);
       }
 
-      if(subType == 'historical' && 
-        this.axisData.y.axisLabel) {
-        this[type].labelRect.append("text")
-          .attr("dy", "1em")
-          .attr("class", "y-axis-label")
-          .attr("text-anchor", "middle")
-          .attr("transform", "translate(-20,-20)")
-          .text(this.axisData.y.axisLabel);
+      if(this.axisData.y.axisLabel) {
+        if(subType == 'historical' || this.hideHistorical) {
+          this[type].labelRect.append("text")
+            .attr("dy", "1em")
+            .attr("class", "y-axis-label")
+            .attr("transform", "translate(-"+(this.margin.left/2)+",-18)")
+            .text(this.axisData.y.axisLabel);
+        }
       }
     },
 
