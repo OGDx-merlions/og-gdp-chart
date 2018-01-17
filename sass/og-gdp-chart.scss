@@ -77,11 +77,12 @@ $axis-color: #95a5ae;
   }
 
   .x-axis-label {
-    font-size: 0.60rem;
+    font-size: 0.70rem;
+    font-weight: bold;
     fill: var(--x-axis-color);
   }
   .y-axis-label {
-    font-size: 0.70rem;
+    font-size: 0.60rem;
     fill: var(--y-axis-color);
   }
   .current-depth {
@@ -113,7 +114,7 @@ $axis-color: #95a5ae;
   .grid {
     pointer-events: none;
     line  {
-      stroke-opacity: 0.3;
+      stroke-opacity: 0.2;
       shape-rendering: crispEdges;
     }
     path {
