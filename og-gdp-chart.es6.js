@@ -402,7 +402,7 @@
         .style("stroke", _axisData.color || this.axisData.x.axisColor)
         .style("stroke-dasharray", _axisData.dashArray || "2,2")
         .attr("y1", currentY(currentDepth))
-        .attr("x1", this.adjustedHeight + 20)
+        .attr("x1", this.adjustedWidth + 7)
         .attr("y2", currentY(currentDepth))
         .attr("x2", -7);
     },
@@ -550,11 +550,11 @@
       if(this.axisData.x[type][subType].label) {
         let labelPositionX;
         if(!this.hideHistorical && 'current' == subType) {
-          labelPositionX = this.adjustedHeight/6;
+          labelPositionX = this.adjustedWidth/4;
         } else if('current' == subType) {
-          labelPositionX = this.adjustedHeight/4;
+          labelPositionX = this.adjustedWidth/2;
         } else {
-          labelPositionX = this.adjustedHeight/3;
+          labelPositionX = this.adjustedWidth/1.5;
         }
         this[type].labelRect.append("text")
           .attr("dy", "1em")
