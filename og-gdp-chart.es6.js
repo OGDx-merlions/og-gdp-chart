@@ -75,6 +75,16 @@
         type: String,
         value: "left"
       },
+      /**
+       * Background Color
+       * Eg: white, #fff
+       *
+       * @property backgroundColor
+       */
+      backgroundColor: {
+        type: String,
+        value: 'white'
+      },
       _bands: {
         type: Array
       },

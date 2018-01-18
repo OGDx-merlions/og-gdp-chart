@@ -47,6 +47,7 @@ $axis-color: #95a5ae;
 }
 
 #gammaChart, #densityChart, #porosityChart {
+  margin: 0.75rem;
   background-color: white;
   .d3-tip {
     line-height: 1;
@@ -138,7 +139,7 @@ $axis-color: #95a5ae;
 .title {
   color: #677e8c;
   font-weight: bold;
-  padding: 1rem 0 1rem 0;
+  padding: 1rem 0 1rem 2.75rem;
 }
 
 .legend {
@@ -150,7 +151,7 @@ $axis-color: #95a5ae;
     border-left: 0.3rem solid;
   }
   .dashed-border {
-    border-left: 0.25rem dashed;
+    border-left: 0.15rem dashed;
   }
 }
 
