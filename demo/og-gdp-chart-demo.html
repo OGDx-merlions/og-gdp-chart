@@ -40,7 +40,7 @@
       <px-demo-component>
         <og-gdp-chart
           data="{{props.data.value}}" axis-data="{{props.axisData.value}}" 
-          margin="{{props.margin.value}}"
+          margin="{{props.margin.value}}" background-color="{{props.backgroundColor.value}}"
           width="{{props.width.value}}" height="{{props.height.value}}">
         </og-gdp-chart>
       </px-demo-component>
@@ -210,6 +210,11 @@
       height: {
         type: Number,
         defaultValue: 600,
+        inputType: 'text'
+      },
+      backgroundColor: {
+        type: String,
+        defaultValue: '#f7f9f9',
         inputType: 'text'
       },
       margin: {
