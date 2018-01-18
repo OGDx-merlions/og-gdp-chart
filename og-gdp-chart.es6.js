@@ -302,7 +302,7 @@
         [0, this.calculatedAdjustedWidth-this.chartPadding]).clamp(true);
       this[type].current.x = d3.scaleLinear().range(
         [0, this.calculatedAdjustedWidth-this.chartPadding]).clamp(true);
-      this[type].historical.y= d3.scaleLinear().range([0, this.adjustedHeight]).clamp(true);
+      this[type].historical.y= d3.scaleLinear().range([0, this.adjustedHeight]);
       this[type].current.y= this[type].historical.y;
 
       let historicalX = this[type].historical.x,
@@ -322,7 +322,7 @@
           return d[_axisType];
         });
         this[_axisType+"Max"] = max;
-        let axisMax = (_axisType == 'x' || subType == 'current') ? max*1.2 : max;
+        let axisMax = max*1.1;
         _axis.domain([min, axisMax]);
 
         //matches only historical X and all y
@@ -332,7 +332,7 @@
           if(niceTicks) {
             _axis.nice(niceTicks);
           } else {
-            _axis.nice();
+            //_axis.nice(5);
           }
         }
       };
