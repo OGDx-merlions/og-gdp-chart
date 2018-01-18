@@ -545,16 +545,16 @@
       }
       if('current' == subType) {
         this[type].svg.append("g")
-            .attr("class", "x-axis")
-            //.attr("transform", "translate(0,"+_translateY/2+")")
-            .call(_xAxis);
-      } else {
-        this[type].svg.append("g")
             .attr("class", `x-axis x-axis-${type}-${subType}`)
-            .attr("transform", "translate("+_translateY+",0)")
+            //.attr("transform", "translate(0,"+_translateY/2+")")
             .call(_xAxis);
         let arr = this.querySelectorAll(`.x-axis-${type}-${subType} g.tick`);
         d3.select(arr[arr.length - 1]).attr('style', 'display: none')
+      } else {
+        this[type].svg.append("g")
+            .attr("class", `x-axis`)
+            .attr("transform", "translate("+_translateY+",0)")
+            .call(_xAxis);
       }
 
       if(this.axisData.x[type][subType].label) {
