@@ -452,9 +452,9 @@
             "color": me.axisData.x.bands[data[0].band].color});
       data.forEach((obj, idx) => {
         if(obj.band != lastBand) {
-          _bands.push({"offset": +obj.y/yMax, 
+          _bands.push({"offset": +((idx+1)/data.length), 
             "color": me.axisData.x.bands[data[idx-1].band].color});
-          _bands.push({"offset": +obj.y/yMax, 
+          _bands.push({"offset": +((idx+1)/data.length), 
             "color": me.axisData.x.bands[obj.band].color});
           lastBand = obj.band;
         }
@@ -464,8 +464,10 @@
       me[type].svg.append("linearGradient")
         .attr("id", "line-gradient")            
         .attr("gradientUnits", "userSpaceOnUse")    
-        .attr("y1", y(0)).attr("x1", 0)         
-        .attr("y2", y(y.domain()[1])).attr("x2", 0)      
+        .attr("y1", y(y.domain()[0]))
+        .attr("x1", 0)         
+        .attr("y2", y(y.domain()[1]))
+        .attr("x2", 0)      
       .selectAll("stop")                      
           .data(_bands)                  
       .enter().append("stop")         
