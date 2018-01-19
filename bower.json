@@ -1,6 +1,6 @@
 {
   "name": "og-gdp-chart",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": [
     "og-gdp-chart.html"
   ],
