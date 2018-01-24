@@ -107,19 +107,22 @@
             "tickFormat": "",
             "d3NiceType": "",
             "niceTicks": 0,
-            "start": 0
+            "start": 0,
+            "end": 0
           },
           "density": {
             "tickFormat": "",
             "d3NiceType": "",
             "niceTicks": 0,
-            "start": 0
+            "start": 0,
+            "end": 0
           },
           "porosity": {
             "tickFormat": "",
             "d3NiceType": "",
             "niceTicks": 0,
-            "start": 0
+            "start": 0,
+            "end": 0
           }
         },
         "x": {
@@ -152,12 +155,14 @@
             "historical": {
               "niceTicks": 6,
               "start": 0,
+              "end": 0,
               "tickFormat": "",
               "label": ""
             },
             "current": {
               "niceTicks": 6,
               "start": 0,
+              "end": 0,
               "tickFormat": "",
               "label": ""
             }
@@ -166,12 +171,14 @@
             "historical": {
               "niceTicks": 6,
               "start": 0,
+              "end": 0,
               "tickFormat": "",
               "label": ""
             },
             "current": {
               "niceTicks": 6,
               "start": 0,
+              "end": 0,
               "tickFormat": "",
               "label": ""
             }
@@ -315,6 +322,12 @@
           _axisData[type][subType].start : _axisData[type].start;
         if(!min && min != 0) {
           min = min || d3.min(data[type][subType], function(d) {
+            return d[_axisType];
+          });
+         let max = _axisData[type][subType] ? 
+          _axisData[type][subType].end : _axisData[type].end;
+        if(!max && max != 0) {
+          max = max || d3.max(data[type][subType], function(d) {
             return d[_axisType];
           });
         }
