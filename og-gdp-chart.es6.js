@@ -42,11 +42,11 @@
       /**
       * Chart Data
       * Format: {
-        "gamma": {"historical": [{"x": 1, "y": 2, "band": "1"}], 
+        "gamma": {"historical": [{"x": 1, "y": 2, "band": "1"}],
           "current": [{"x": 1, "y": 2, "band": "1"}]},
-        "density": {"historical": [{"x": 1, "y": 2, "band": "1"}], 
+        "density": {"historical": [{"x": 1, "y": 2, "band": "1"}],
           "current": [{"x": 1, "y": 2, "band": "1"}]},
-        "porosity": {"historical": [{"x": 1, "y": 2, "band": "1"}], 
+        "porosity": {"historical": [{"x": 1, "y": 2, "band": "1"}],
           "current": [{"x": 1, "y": 2, "band": "1"}]}
       }
       * @property data
@@ -237,7 +237,7 @@
       this._drawCurrentDepthSeparator(data, type);
       this._drawChart(data, type);
     },
-    
+
     _setupDefaults() {
       this.gamma = this.gamma || {"historical": {}, "current": {}};
       this.density = this.density || {"historical": {}, "current": {}};
@@ -318,13 +318,14 @@
           currentY = this[type].current.y;
 
       let _setDomain = (_axis, _axisData, _axisType, subType) => {
-        let min = _axisData[type][subType] ? 
+        let min = _axisData[type][subType] ?
           _axisData[type][subType].start : _axisData[type].start;
         if(!min && min != 0) {
           min = min || d3.min(data[type][subType], function(d) {
             return d[_axisType];
           });
-         let max = _axisData[type][subType] ? 
+        }
+         let max = _axisData[type][subType] ?
           _axisData[type][subType].end : _axisData[type].end;
         if(!max && max != 0) {
           max = max || d3.max(data[type][subType], function(d) {
@@ -340,7 +341,7 @@
 
         //matches only historical X and all y
         if('historical' == subType || _axisData[type][subType]) {
-          let niceTicks = _axisData[type][subType] ? 
+          let niceTicks = _axisData[type][subType] ?
             _axisData[type][subType].niceTicks : _axisData[type].niceTicks;
           if(niceTicks) {
             _axis.nice(niceTicks);
@@ -364,7 +365,7 @@
           historicalY = this[type].historical.y,
           currentY = this[type].current.y,
           d3 = Px.d3;
-      
+
       if(!this.axisData.x.hideGrid) {
         let _xGrid = d3.axisTop(historicalX)
           .tickSize(this.adjustedHeight)
@@ -376,7 +377,7 @@
         if(!this.hideHistorical) {
           this[type].svg.append("g")
             .attr("class", `grid x-grid ${type}-x-grid`)
-            .attr("transform", "translate("+ (this.calculatedAdjustedWidth+this.chartPadding) + 
+            .attr("transform", "translate("+ (this.calculatedAdjustedWidth+this.chartPadding) +
               "," + this.adjustedHeight + ")")
             .call(_xGrid);
         }
@@ -439,14 +440,14 @@
           currentY = this[type].current.y,
           d3 = Px.d3;
       if(!this.hideHistorical) {
-        this._plotLineAndDot(historicalX, 
+        this._plotLineAndDot(historicalX,
           historicalY, data[type].historical, type, 'historical');
       }
-      this._plotLineAndDot(currentX, 
+      this._plotLineAndDot(currentX,
         currentY, data[type].current, type, 'current');
     },
     _plotLineAndDot(x, y, data, type, subType) {
-      let d3 = Px.d3, radius = this.axisData.x.dotRadius, 
+      let d3 = Px.d3, radius = this.axisData.x.dotRadius,
       _axisData = this.axisData, me = this;
       let line = d3.line()
           .x(function(d) { return x(+d.x); })
@@ -461,30 +462,30 @@
       })
       let lastBand = data[0].band;
       let yMax = this.yMax, len = data.length;
-      _bands.push({"offset": 0, 
+      _bands.push({"offset": 0,
             "color": me.axisData.x.bands[data[0].band].color});
       data.forEach((obj, idx) => {
         if(obj.band != lastBand) {
-          _bands.push({"offset": +((idx+1)/data.length), 
+          _bands.push({"offset": +((idx+1)/data.length),
             "color": me.axisData.x.bands[data[idx-1].band].color});
-          _bands.push({"offset": +((idx+1)/data.length), 
+          _bands.push({"offset": +((idx+1)/data.length),
             "color": me.axisData.x.bands[obj.band].color});
           lastBand = obj.band;
         }
       });
-      _bands.push({"offset": 1, 
+      _bands.push({"offset": 1,
             "color": me.axisData.x.bands[data[len-1].band].color});
       me[type].svg.append("linearGradient")
-        .attr("id", "line-gradient")            
-        .attr("gradientUnits", "userSpaceOnUse")    
+        .attr("id", "line-gradient")
+        .attr("gradientUnits", "userSpaceOnUse")
         .attr("y1", y(y.domain()[0]))
-        .attr("x1", 0)         
+        .attr("x1", 0)
         .attr("y2", y(y.domain()[1]))
-        .attr("x2", 0)      
-      .selectAll("stop")                      
-          .data(_bands)                  
-      .enter().append("stop")         
-          .attr("offset", function(d) { return d.offset; })   
+        .attr("x2", 0)
+      .selectAll("stop")
+          .data(_bands)
+      .enter().append("stop")
+          .attr("offset", function(d) { return d.offset; })
           .attr("stop-color", function(d) { return d.color; });
 
       let path = me[type].svg.append('path')
@@ -507,7 +508,7 @@
           .on('mouseover', (d, i) => {
             d3.select(me)
               .attr('r', radius + 2);
-            let prefix = _axisData.x[type][subType].label ? 
+            let prefix = _axisData.x[type][subType].label ?
               _axisData.x[type][subType].label + ": " : "";
             d.msg = prefix + d.x;
             me[type].toolTip.show(d);
