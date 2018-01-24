@@ -331,9 +331,9 @@
             return d[_axisType];
           });
         }
-        let max = d3.max(data[type][subType], function(d) {
-          return d[_axisType];
-        });
+//         let max = d3.max(data[type][subType], function(d) {
+//           return d[_axisType];
+//         });
         this[_axisType+"Max"] = max;
         let axisMax = max*1.1;
         _axis.domain([min, axisMax]);
