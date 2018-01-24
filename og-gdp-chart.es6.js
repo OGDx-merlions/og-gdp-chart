@@ -141,12 +141,14 @@
             "historical": {
               "niceTicks": 6,
               "start": 0,
+              "end" : 0,
               "tickFormat": "",
               "label": ""
             },
             "current": {
               "niceTicks": 6,
               "start": 0,
+              "end" : 0,
               "tickFormat": "",
               "label": ""
             }
