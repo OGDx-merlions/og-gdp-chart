@@ -584,11 +584,12 @@
         } else {
           labelPositionX = this.adjustedWidth/1.5;
         }
+        labelPositionX += 20;
         this[type].labelRect.append("text")
           .attr("dy", "1em")
           .attr("class", "x-axis-label")
           .attr("text-anchor", "middle")
-          .attr("transform", "translate("+labelPositionX+20+",-20)")
+          .attr("transform", "translate("+labelPositionX+",-20)")
           .text(this.axisData.x[type][subType].label);
       }
 
