@@ -269,7 +269,7 @@
     _prepareChartingArea(type) {
       let d3 = Px.d3;
       // set the dimensions and margins of the graph
-      this.margin = this.margin || {top: 30, right: 20, bottom: 40, left: 50};
+      this.margin = this.margin || {top: 30, right: 20, bottom: 40, left: 60};
       let _width = this.width;
       this.adjustedWidth = _width - this.margin.left - this.margin.right;
       this.adjustedHeight = this.height - this.margin.top - this.margin.bottom;
@@ -588,7 +588,7 @@
           .attr("dy", "1em")
           .attr("class", "x-axis-label")
           .attr("text-anchor", "middle")
-          .attr("transform", "translate("+labelPositionX+",-20)")
+          .attr("transform", "translate("+labelPositionX+20+",-20)")
           .text(this.axisData.x[type][subType].label);
       }
 

@@ -1,8 +1,5 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
-    'gulp serve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
--->
+<!-- Relative paths assume component is being run from inside an app or another component, where dependencies are flat siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with 'gulp serve'
+(or similar server setup) to enable correct finding of bower dependencies for local runs. -->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-d3-imports/px-d3-imports.html"/>
 <link rel="import" href="../px-toggle/px-toggle.html"/>
@@ -10,18 +7,7 @@
 
 <link rel="import" href="css/og-gdp-chart-styles.html">
 
-<!--
-REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
-
-### Usage
-
-    <og-gdp-chart counter-value="1"></og-gdp-chart>
-
-@element og-gdp-chart
-@blurb REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
-@homepage index.html
-@demo index.html
--->
+<!-- REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION ### Usage <og-gdp-chart counter-value="1"></og-gdp-chart> @element og-gdp-chart @blurb REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION @homepage index.html @demo index.html -->
 
 <dom-module id="og-gdp-chart">
   <template>
@@ -31,19 +17,18 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
         <div class$="flex flex--[[legendAlignment]] legend u-5/6">
           <div class="flex flex--wrap">
             <template is="dom-repeat" items="[[_bands]]" index-as="idx" as="item">
-              <div class="flex flex__item flex--col u-pr++ zeta legend-unit" 
-                style$="border-color: [[item.color]]">
+              <div class="flex flex__item flex--col u-pr++ zeta legend-unit" style$="border-color: [[item.color]]">
                 <span class="flex flex--top">[[item.label]]</span>
               </div>
             </template>
-            <div class="flex flex__item flex--col u-pr++ zeta legend-unit dashed-border" data-id="currentDepth" 
-              style$="border-color: [[axisData.x.currentDepth.color]]">
+            <div class="flex flex__item flex--col u-pr++ zeta legend-unit dashed-border" data-id="currentDepth" style$="border-color: [[axisData.x.currentDepth.color]]">
               <span class="flex flex--top">[[axisData.x.currentDepth.label]]</span>
             </div>
           </div>
         </div>
         <div class="flex flex--center u-1/6">
-          WellBore1 (Historical) <px-toggle id="historicalToggle" checked></px-toggle>
+          WellBore1 (Historical)
+          <px-toggle id="historicalToggle" checked="checked"></px-toggle>
         </div>
       </div>
       <div class="flex flex--col">
@@ -52,12 +37,12 @@ REPLACE THIS TEXT WITH A COMPONENT DESCRIPTION
             <div class="epsilon weight--bold title">Gamma</div>
             <div id="gammaChart"></div>
           </div>
-  
+
           <div class="u-1/3">
             <div class="epsilon weight--bold title">Resistivity</div>
             <div id="densityChart"></div>
           </div>
-  
+
           <div class="u-1/3">
             <div class="epsilon weight--bold title">Porosity</div>
             <div id="porosityChart"></div>

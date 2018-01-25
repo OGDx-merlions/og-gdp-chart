@@ -46,6 +46,10 @@ $axis-color: #95a5ae;
   --y-tick-color: $axis-color;
 }
 
+px-toggle {
+margin-right:4em;
+}
+
 #gammaChart, #densityChart, #porosityChart {
   margin: 0.60rem;
   background-color: white;
